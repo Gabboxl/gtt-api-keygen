@@ -29,7 +29,7 @@ public class Main {
     public static ApiParameters m1260a(String str) throws IOException {
         String str2 = "";
         Long valueOf = Long.valueOf(System.currentTimeMillis());
-        String toUpperCase = Main.m1261a(Main.m1262a("/ga/gabboxl/sale.png")).toUpperCase(); //questa funzione può essere sostituita semplicemente con la stringa "759C97DC7D115966C30FD9169BB200D9" siccome il calcolo dell'impronta digitale dell'immagine è sempre il medesimo
+        String toUpperCase = Main.m1261a(Main.m1262a("/sale.png")).toUpperCase(); //questa funzione può essere sostituita semplicemente con la stringa "759C97DC7D115966C30FD9169BB200D9" siccome il calcolo dell'impronta digitale dell'immagine è sempre il medesimo
         str2 = Main.m1383b(str + String.valueOf(valueOf) + toUpperCase);
         System.out.println("apiName: " + str + " timeStamp: " + valueOf + " secret: " + toUpperCase);
         System.out.println("token: " + str2);
