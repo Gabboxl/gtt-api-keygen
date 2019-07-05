@@ -1,5 +1,6 @@
 # robe create da Intellij IDEA
 out/
+.idea/workspace.xml
 
 
 # Compiled class file
