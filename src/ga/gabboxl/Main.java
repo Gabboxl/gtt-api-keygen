@@ -19,8 +19,12 @@ public class Main {
     public static void main(String[] args) {
         ApiParameters a = null;
         try {
-            a = Main.m1260a("/ws2.1/rest/stops/***REMOVED***/departures");
+            a = Main.m1260a("/ws2.1/rest/stops/" + args[0] + "/departures");
             System.out.println(a.token + " ----- " + a.timeStamp);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
+            System.out.println("Devi inserire una fermata! \n Utilizzo corretto: java -jar gtt-keygen.jar <n. fermata>");
+            System.exit(0);
         } catch (IOException e) {
             e.printStackTrace();
         }
