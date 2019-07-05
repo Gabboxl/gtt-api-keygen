@@ -25,15 +25,13 @@ public class Main {
             e.printStackTrace();
             System.out.println("Devi inserire una fermata! \n Utilizzo corretto: java -jar gtt-keygen.jar <n. fermata>");
             System.exit(0);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
-    public static ApiParameters m1260a(String str) throws IOException {
+    public static ApiParameters m1260a(String str) {
         String str2 = "";
         Long valueOf = Long.valueOf(System.currentTimeMillis());
-        String toUpperCase = Main.m1261a(Main.m1262a("/sale.png")).toUpperCase(); //questa funzione può essere sostituita semplicemente con la stringa "759C97DC7D115966C30FD9169BB200D9" siccome il calcolo dell'impronta digitale dell'immagine è sempre il medesimo
+        String toUpperCase = Main.m1261a(Main.m1262a("/sale.png")).toUpperCase(); //il richiamo alla funzione può essere sostituita semplicemente con la stringa "759C97DC7D115966C30FD9169BB200D9" siccome il calcolo del "segreto" dall'immagine è sempre il medesimo
         str2 = Main.m1383b(str + String.valueOf(valueOf) + toUpperCase);
         System.out.println("apiName: " + str + " timeStamp: " + valueOf + " secret: " + toUpperCase);
         System.out.println("token: " + str2);
