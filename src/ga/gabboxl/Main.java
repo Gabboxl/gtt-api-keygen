@@ -5,7 +5,7 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/*  GTT's token (for http requests) generator extracted and simplified from the GTT Mobile App by Gabboxl
+/*  Generatore di token per accedere alla API degli orari di GTT, estratto dalla app Android "GTT Mobile" e semplificato da Gabboxl
 *
 *  .apk decompilato con JADX
 *
