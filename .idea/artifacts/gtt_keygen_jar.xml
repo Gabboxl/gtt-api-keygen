@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="gtt_keygen:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/gtt_keygen_jar</output-path>
-    <root id="archive" name="gtt_keygen.jar">
-      <element id="module-output" name="gtt_keygen" />
-    </root>
-  </artifact>
-</component>
