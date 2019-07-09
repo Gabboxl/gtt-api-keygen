@@ -13,7 +13,7 @@ CON gli header TOKEN e TIMESTAMP con i rispettivi valori.
 
 Dopo aver inviato la richiesta, vi verranno restituiti tutti i dati dei bus/orari della fermata richiesta.
 
-Il token generato è **TEMPORANEO** e vale **SOLTANTO** per la fermata impostata al momento della generazione, pertanto se il server non restituisce dati, probabilmente saraà necessario generare di nuovo il token per la relativa fermata.
+Il token generato è **TEMPORANEO** e vale **SOLTANTO** per la fermata/endpoint impostati al momento della generazione, pertanto se il server non restituisce dati, probabilmente sarà necessario generare un nuovo token per la relativa fermata/endpoint.
 
 -----
 
