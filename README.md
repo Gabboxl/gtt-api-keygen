@@ -1,5 +1,4 @@
 # gtt-api-keygen
-Generatore di token per accedere alla API nascosta di GTT
 
 -----
-*wip*
+**Ciao! Questo sito per il momento è ancora in costruzione! Se vuoi, puoi consultare il progetto su Github: https://github.com/Gabboxl/gtt-api-keygen**
