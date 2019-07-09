@@ -1,2 +1,4 @@
 theme: jekyll-theme-cayman
 title: GTT Api
+description: Generatore di token per accedere alla API nascosta di GTT
+show_downloads: true
