@@ -1,6 +1,6 @@
 theme: jekyll-theme-cayman
-title: GTT Api
-description: Generatore di token per accedere alla API nascosta di GTT
+title: GTT API 
+description: Generatore di token per accedere alla VERA API nascosta di GTT
 show_jar_downloads: true
 github: 
   jar_url: https://github.com/Gabboxl/gtt-api-keygen/releases/download/v1.0.0/gtt-keygen.jar
