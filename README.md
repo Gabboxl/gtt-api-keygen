@@ -1,6 +1,29 @@
 # gtt-api-keygen
 Generatore di token per accedere alla API nascosta di GTT
 
+## Endpoint (o nodi) disponibili
+Questi sono i nodi scoperti finora analizzando l'applicazione: 
+*Link API:* http://www.5t.torino.it/proxyws
+
+1) /ws2.1/rest/stops/XXX/departures
+2) /ws2.1/rest/stops/XXX/branches/details
+3) /ws2.1/rest/parks/all
+4) /ws2.1/rest/stops/all
+5) /ws2.1/rest/stops/version
+6) /ws2.1/rest/defib/all
+
+
+XXX = numero fermata
+
+ **ATTENZIONE: per il momento è impostata la generazione di token sontanto per l'endpoint n.1, nel futuro verrà implementato un metodo di scelta degli endpoint.**
+
+Per ora, se vuoi utilizzare un endpoint a tuo piacere, devi modificare il seguente blocco di codice (nella classe Main, funzione main) contenente la chiamata al metodo **m1260a** sostituendo l'unico parametro disponibile (l'endpoint) con quello desiderato. 
+
+*esempio per l'endpoint n.3:*
+```java
+a = Main.m1260a("/ws2.1/rest/parks/all");
+```
+
 ## Come usarlo
 *Se non hai voglia di compilarti da solo il programma, puoi ottenere la versione .jar da qua:* https://github.com/Gabboxl/gtt-api-keygen/releases/latest
 
@@ -8,7 +31,7 @@ Puoi avviare il programma così: `java -jar gtt-keygen.jar XXX`,  dove XXX è il
 
 Ti verranno restituiti tre valori: apiName, TOKEN e TIMESTAMP.
 
-Dovrai effettuare una richiesta HTTP di tipo GET al sito: http://5t.torino.it/proxyws **+ apiName** (*esempio:* `http://5t.torino.it/proxyws//ws2.1/rest/stops/XXX/departures`)
+Dovrai effettuare una richiesta HTTP di tipo GET al sito: http://5t.torino.it/proxyws **+ apiName** (*esempio:* `http://5t.torino.it/proxyws/ws2.1/rest/stops/XXX/departures`)
 CON gli header TOKEN e TIMESTAMP con i rispettivi valori.
 
 Dopo aver inviato la richiesta, vi verranno restituiti tutti i dati dei bus/orari della fermata richiesta.
@@ -18,4 +41,4 @@ Il token generato è **TEMPORANEO** e vale **SOLTANTO** per la fermata/endpoint 
 -----
 
 # Come funziona tutto ciò? Come lo hai scoperto?
-Tutto quello che devi sapere è (e sarà) scritto qui: https://gtt.gabboxl.ga 
+Tutto quello che devi sapere è (e sarà) scritto qui: https://gtt.gabboxl.ga
