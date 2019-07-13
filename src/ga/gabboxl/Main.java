@@ -30,7 +30,7 @@ public class Main {
     public static ApiParameters m1260a(String str) {
         String str2 = "";
         Long valueOf = Long.valueOf(System.currentTimeMillis());
-        String toUpperCase = Main.m1261a(Main.m1262a("/sale.png")).toUpperCase(); //il richiamo alla funzione può essere sostituita semplicemente con la stringa "759C97DC7D115966C30FD9169BB200D9" siccome il calcolo del "segreto" dall'immagine è sempre il medesimo
+        String toUpperCase = Main.m1261a(Main.m1262a("/sale.png")).toUpperCase(); //il richiamo alla funzione può essere sostituita semplicemente con la stringa "759C97DC7D115966C30FD9169BB200D9" siccome il calcolo del "segreto" (un semplice MD5 checksum) dall'immagine è sempre il medesimo
         str2 = Main.m1383b(str + String.valueOf(valueOf) + toUpperCase);
         //System.out.println("apiName: " + str + " timeStamp: " + valueOf + " secret: " + toUpperCase);
         //System.out.println("token: " + str2);
@@ -38,12 +38,12 @@ public class Main {
     }
 
     /* renamed from: a */
-    public static byte[] m1262a(String str) {
+    public static byte[] m1262a(String str) {  //questa funzione apre la foto sottoforma di bytes (l'output verrà poi passato alla funzione m1261a che esegue un MD5 checksum dei dati forniti)
         byte[] bArr = null;
         try {
             InputStream open = Main.class.getResourceAsStream(str);
             bArr = new byte[open.available()];
-            open.read(bArr);
+            open.read(bArr); // probably non sapevano cosa stessero facendo
             open.close();
             return bArr;
         } catch (IOException e) {
@@ -52,7 +52,7 @@ public class Main {
     }
 
     /* renamed from: a */
-    public static String m1261a(byte[] bArr) {
+    public static String m1261a(byte[] bArr) { //salve! ti rimando alla funzione m1383b!
         String str = "MD5";
         try {
             MessageDigest instance = MessageDigest.getInstance("MD5");
@@ -75,7 +75,7 @@ public class Main {
 
 
 
-    public static String m1383b(String str) {
+    public static String m1383b(String str) {  //fun fact:  questa funzione è perfettamente identica a m1261a, il loro scopo è eseguire un MD5 checksum.
         String str2;
         try {
             MessageDigest instance = MessageDigest.getInstance("MD5");
