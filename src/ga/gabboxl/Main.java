@@ -20,9 +20,8 @@ public class Main {
         ApiParameters a = null;
         try {
             a = Main.m1260a("/ws2.1/rest/stops/" + args[0] + "/departures");
-            System.out.println(a.token + " ----- " + a.timeStamp);
+            System.out.println("apiName: " + a.apiName + "\n TOKEN: " + a.token + "\n TIMESTAMP: " + a.timeStamp + "\n secret: " + a.secret);
         } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
             System.out.println("Devi inserire una fermata! \n Utilizzo corretto: java -jar gtt-keygen.jar <n. fermata>");
             System.exit(0);
         }
@@ -33,9 +32,9 @@ public class Main {
         Long valueOf = Long.valueOf(System.currentTimeMillis());
         String toUpperCase = Main.m1261a(Main.m1262a("/sale.png")).toUpperCase(); //il richiamo alla funzione può essere sostituita semplicemente con la stringa "759C97DC7D115966C30FD9169BB200D9" siccome il calcolo del "segreto" dall'immagine è sempre il medesimo
         str2 = Main.m1383b(str + String.valueOf(valueOf) + toUpperCase);
-        System.out.println("apiName: " + str + " timeStamp: " + valueOf + " secret: " + toUpperCase);
-        System.out.println("token: " + str2);
-        return ApiParameters.newInstance(str2, valueOf);
+        //System.out.println("apiName: " + str + " timeStamp: " + valueOf + " secret: " + toUpperCase);
+        //System.out.println("token: " + str2);
+        return ApiParameters.newInstance(str, str2, valueOf, toUpperCase);
     }
 
     /* renamed from: a */
