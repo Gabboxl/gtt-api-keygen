@@ -1,8 +1,11 @@
 # gtt-api-keygen
 Generatore di token per accedere alla API nascosta di GTT
 
+
+
 ## Endpoint (o nodi) disponibili
 Questi sono i nodi scoperti finora analizzando l'applicazione: 
+
 *Link API:* http://www.5t.torino.it/proxyws
 
 1) /ws2.1/rest/stops/XXX/departures
@@ -24,7 +27,7 @@ Per ora, se vuoi utilizzare un endpoint a tuo piacere, devi modificare il seguen
 a = Main.m1260a("/ws2.1/rest/parks/all");
 ```
 
-## Come usarlo
+## Come si usa?
 *Se non hai voglia di compilarti da solo il programma, puoi ottenere la versione .jar da qua:* https://github.com/Gabboxl/gtt-api-keygen/releases/latest
 
 Puoi avviare il programma così: `java -jar gtt-keygen.jar XXX`,  dove XXX è il numero della fermata.
@@ -36,7 +39,11 @@ CON gli header TOKEN e TIMESTAMP con i rispettivi valori.
 
 Dopo aver inviato la richiesta, vi verranno restituiti tutti i dati dei bus/orari della fermata richiesta.
 
-Il token generato è **TEMPORANEO** e vale **SOLTANTO** per la fermata/endpoint impostati al momento della generazione, pertanto se il server non restituisce dati, probabilmente sarà necessario generare un nuovo token per la relativa fermata/endpoint.
+**ATTENZIONE:** Dopo vari test, è emerso che il token generato è **TEMPORANEO** e vale **SOLTANTO** per la fermata/endpoint impostati al momento della generazione, pertanto se il server non restituisce dati, probabilmente sarà necessario generare un nuovo token per la relativa fermata/endpoint.
+
+
+## Roadmap
+La roadmap del progetto è disponibile [qui!](https://github.com/Gabboxl/gtt-api-keygen/projects/1)
 
 -----
 
