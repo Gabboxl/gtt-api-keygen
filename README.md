@@ -6,17 +6,9 @@ Generatore di token per accedere alla API nascosta di GTT
 ## Endpoint (o nodi) disponibili
 Questi sono i nodi scoperti finora analizzando l'applicazione: 
 
-*Link API:* http://www.5t.torino.it/proxyws
+*API:* http://www.5t.torino.it/proxyws
 
-1) /ws2.1/rest/stops/XXX/departures
-2) /ws2.1/rest/stops/XXX/branches/details
-3) /ws2.1/rest/parks/all
-4) /ws2.1/rest/stops/all
-5) /ws2.1/rest/stops/version
-6) /ws2.1/rest/defib/all
-
-
-XXX = numero fermata
+Endpoints: https://gtt.gabboxl.ga/API
 
  **ATTENZIONE: per il momento è impostata la generazione di token sontanto per l'endpoint n.1, nel futuro verrà implementato un metodo di scelta degli endpoint.**
 
