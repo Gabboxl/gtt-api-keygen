@@ -1,5 +1,5 @@
 theme: jekyll-theme-cayman
-title: La API di GTT
+title: GTT REST API
 description: Generatore di token per accedere alla VERA API nascosta di GTT
 show_jar_downloads: true
 github: 
