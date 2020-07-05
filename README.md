@@ -10,11 +10,11 @@ Questi sono i nodi scoperti finora analizzando l'applicazione:
 
 Endpoints: https://gtt.gabboxl.ga/API
 
- **ATTENZIONE: per il momento è impostata la generazione di token sontanto per l'endpoint n.1, nel futuro verrà implementato un metodo di scelta degli endpoint.**
+ **ATTENZIONE: per il momento è impostata la generazione di token sontanto per l'endpoint** */ws2.1/rest/stops/XXX/departures* **, nel futuro verrà implementato un metodo di scelta degli endpoint.**
 
 Per ora, se vuoi utilizzare un endpoint a tuo piacere, devi modificare il seguente blocco di codice (nella classe Main, funzione main) contenente la chiamata al metodo **m1260a** sostituendo l'unico parametro disponibile (l'endpoint) con quello desiderato. 
 
-*esempio per l'endpoint n.3:*
+*esempio per l'endpoint* "**/ws2.1/rest/parks/all**":
 ```java
 a = Main.m1260a("/ws2.1/rest/parks/all");
 ```
