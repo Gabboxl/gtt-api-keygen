@@ -18,6 +18,10 @@
     <meta name="theme-color" content="#157878">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+
+    {% if page.swagger %}
+    <link rel="stylesheet" type="text/css" href="dist/swagger-ui.css" >
+    {% endif %}
   </head>
   <body>
 
@@ -38,7 +42,38 @@
 
     <main id="content" class="main-content" role="main">
       {{ content }}
+    </main>
 
+      {% if page.swagger %}
+      <div id="swagger-ui"></div>
+
+      <script src="dist/swagger-ui-bundle.js"> </script>
+      <script src="dist/swagger-ui-standalone-preset.js"> </script>
+      <script>
+      window.onload = function() {
+        // Begin Swagger UI call region
+        const ui = SwaggerUIBundle({
+          url: "swagger.yaml",
+          dom_id: '#swagger-ui',
+          deepLinking: true,
+          presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIStandalonePreset
+          ],
+          plugins: [
+            SwaggerUIBundle.plugins.DownloadUrl
+          ],
+          layout: "BaseLayout"
+        })
+        // End Swagger UI call region
+
+        window.ui = ui
+      }
+    </script>
+    {% endif %}
+
+
+<main id="content" class="main-content" role="main">
       <footer class="site-footer">
         {% if site.github.is_project_page %}
           <span class="site-footer-owner"><a href="{{ site.github.repository_url }}">{{ site.github.repository_name }}</a> is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a>.</span>

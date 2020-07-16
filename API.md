@@ -1,6 +1,6 @@
 ---
 title: Documentazione API
-layout: swag
+swagger: true
 ---
 
 
