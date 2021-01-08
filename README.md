@@ -29,7 +29,7 @@ Ti verranno restituiti tre valori: apiName, TOKEN e TIMESTAMP.
 Dovrai effettuare una richiesta HTTP di tipo GET al sito: http://5t.torino.it/proxyws **+ apiName** (*esempio:* `http://5t.torino.it/proxyws/ws2.1/rest/stops/XXX/departures`)
 CON gli header TOKEN e TIMESTAMP con i rispettivi valori.
 
-Dopo aver inviato la richiesta, vi verranno restituiti tutti i dati dei bus/orari della fermata richiesta.
+Dopo aver inviato la richiesta, vi verranno restituiti i dati.
 
 **ATTENZIONE:** Dopo vari test, è emerso che il token generato è **TEMPORANEO** e vale **SOLTANTO** per la fermata/endpoint impostati al momento della generazione, pertanto se il server non restituisce dati, probabilmente sarà necessario generare un nuovo token per la relativa fermata/endpoint.
 
