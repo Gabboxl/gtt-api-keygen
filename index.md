@@ -13,11 +13,9 @@ Convinto che l'app di GTT non utilizzasse la suddetta tecnica per ricavare i dat
 
 Durante la creazione di questo sito, ho deciso di analizzare altre app degli orari GTT **non ufficiali** sul Play Store: alcune come [questa](https://play.google.com/store/apps/details?id=it.paologodino.bustorino), ricorrono all'HTML parsing di un widget utilizzato sul sito web di 5T.
 
-Attirò invece la mia attenzione [questa app](https://play.google.com/store/apps/details?id=com.belandsoft.orariGTT), sviluppata da Andrea Bellito: la API utilizzata è letteralmente la stessa, ma su un persorso diverso.
+Attirò invece la mia attenzione [questa app](https://play.google.com/store/apps/details?id=com.belandsoft.orariGTT), sviluppata da Andrea Bellitto: la API utilizzata è letteralmente la stessa, ma su un persorso diverso.
 L'unica differenza sostanziale, è che eroga i dati anche senza autenticazione!
 
-
-----
 
 
 Perciò in favore della nuova REST API senza "autenticazione", l'utilità del progetto [gtt-api-keygen](https://github.com/Gabboxl/gtt-api-keygen) diventa pari a zero. (Non si spiega perchè l'applicazione ufficiale di GTT non utilizzi questa versione della API - si sarebbero risparmiate linee di codice inutili!)
