@@ -2,33 +2,40 @@
 title: Reverse engineering della app GTT
 ---
 
-# Indice
-
-* [Introduzione](#introduzione)
-* [Analisi del traffico dati](#analisi-del-traffico-dati)
-* [Decompilazione dell'app](#decompilazione-dell'app)
-* [Analisi del codice](#analisi-del-codice)
-    * [Classe x]()
-    * [Classe y]()
-* [Recap / [TL; DR]]()
-
-
-# Introduzione
 *data prima scrittura: 7/01/2021*
 
 *data ultimo aggiornamento: 22/02/2021*
 
----
+# Indice
+
+* [Introduzione](#introduzione)
+* [Analisi del traffico dati](#analisi-del-traffico-dati)
+* [Decompilazione dell'app](#decompilazione)
+* [Analisi del codice](#analisi-del-codice)
+    * [La classe C1548a](#c1548a)
+    * [La Classe ApiParameters](#apiparameters)
+* [Recap / [TL; DR]](#tldr)
+
+<br><br>
+
+# Introduzione
+
 
 In questa sezione racconterò ciò che ho scoperto durante Giugno 2019.
 
 La versione dell'app che utilizzai è la **2.5.2** (ovvero l'ultima uscita finora xd).
 
-**Ricordo che in seguito all'analisi di un'altra app per gli orari GTT (non ufficiale), ho scoperto dell'esistenza di un altro percorso dell'api non richiedente "l'autenticazione" mediante token e timestamp.**
+---
+**Ricordo che in seguito all'analisi di un'altra app per gli orari GTT (non ufficiale), ho scoperto dell'esistenza di un altro percorso dell'api non richiedente "l'autenticazione" mediante token e timestamp. Continua a leggere [qua](https://gtt.gabboxl.ga)**
 
-Se dovessi trovare errori grammaticali o di qualsiasi tipo, sezioni poco chiare o con formattazioni poco coerenti, mi aiuteresti segnalandomelo aprendo una issue su github! 
+---
+
+Se dovessi trovare errori grammaticali o di qualsiasi tipo, sezioni poco chiare o con formattazioni poco coerenti, mi aiuteresti segnalandomelo con una issue su github! 
 
 Grazie e buona lettura!
+
+<br><br>
+
 
 # Analisi del traffico dati
 
@@ -70,7 +77,9 @@ Da ciò ho dedotto che il valore del token creato fosse **strettamente legato al
 
 Per poter usufruire dell'api al di fuori dell'app, mi mancava capire come fosse generato il token.
 
+<br><br><br>
 
+<span id="decompilazione">
 # Decompilazione dell'app
 
 Ho estratto l'apk dell'app dal mio telefono tramite **adb** (Android Debug Bridge) che puoi scaricare [dal sito ufficiale](https://developer.android.com/studio/command-line/adb):
@@ -85,6 +94,7 @@ Dopodichè ho utilizzato **Jadx**  per decompilare il file apk. (Spesso utilizzo
 
 Il codice decompilato si trova nella cartella `sources`, mentre le risorse (immagini ecc.) sono dentro alla cartella `resources`.
 
+<br><br><br>
 
 # Analisi del codice
 
@@ -232,8 +242,10 @@ Considerate tutto ciò che vedrete in questa pagina come "*pseudo codice*")
 
 Seguiamo il percorso dell'import `it.fivet.gttmobile.p017e.C1548a;` (riga **10**) e vediamo cosa si cela all'interno di questa classe *misteriosa*:
 
+<br>
 
-### La classe C1548a (aka ApiUtilities) ((generazione del token))
+<span id="c1548a">
+## La classe C1548a (aka ApiUtilities) ((generazione del token))
 
 <!-- <div style="-webkit-column-count: 2; -moz-column-count: 2; column-count: 2; -webkit-column-rule: 1px dotted #e0e0e0; -moz-column-rule: 1px dotted #e0e0e0; column-rule: 1px dotted #e0e0e0;  width: max-content;"> -->
 
@@ -613,7 +625,11 @@ I vari dati di output vengono loggati:
 Alla fine della funzione **ApiParameters m1260a**, vengono salvati i dati all'interno di un'instanza della classe ApiParameters... 
 
 ... e soltanto adesso posso rispondere alla domanda "*ma cos'è sta classe ApiParameters?*"!
-### La Classe ApiParameters
+
+<br>
+
+<span id="apiparameters">
+## La Classe ApiParameters
 
 Nelle "importazioni" del codice è presente proprio la classe "ApiParameters" (`import it.fivet.gttmobile.models.response.ApiParameters;`). Andiamola a vedere al suo percorso corrispondente (`sources/it/fivet/gttmobile/models/response/ApiParameters.java`):
 
@@ -685,4 +701,6 @@ Oltre alla classe `ApiParameters` è possibile notare che nella cartella "respon
 
 <br><br><br>
 
+
+<span id="tldr">
 # Recap (TL; DR)
