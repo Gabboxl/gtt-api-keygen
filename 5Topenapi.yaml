@@ -1,0 +1,382 @@
+openapi: 3.0.3
+info:
+  title: 5T REST API
+  description: tanta roba
+  termsOfService: http://www.5t.torino.it/termini-e-condizioni-uso/
+  version: 2.1.4
+externalDocs:
+  url: http://www.5t.torino.it/ws2.1/
+  description: Lista nodi ufficiale
+servers:
+- url: http://www.5t.torino.it/ws2.1/rest
+tags:
+- name: gtt
+  description: Trasporto pubblico (GTT)
+- name: journey
+  description: Pianificazione viaggi
+- name: poi
+  description: Punti di interesse
+paths:
+  /lines/all:
+    get:
+      tags:
+      - gtt
+      summary: Lista completa delle linee GTT
+      description: Restituisce un array di Linee in json.
+      operationId: linesAll
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Linea'
+  /stops/version:
+    get:
+      tags:
+      - gtt
+      summary: Versione database fermate
+      description: Restituisce le informazioni sulla versione del database (?) richiesto.
+      operationId: stopsVersion
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Versione'
+  /stops/all:
+    get:
+      tags:
+      - gtt
+      summary: Lista completa fermate GTT
+      description: Restituisce un array contenente tutte le fermate GTT (bus, metro, treni).
+      operationId: stopsAll
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fermata'
+  /stops/{fermata}/details:
+    get:
+      tags:
+      - gtt
+      summary: Dettagli fermata
+      description: Restituisce i dettagli sulla fermata specificata (vedi schema).
+      operationId: stopsDetails
+      parameters:
+      - name: fermata
+        in: path
+        description: Codice della fermata
+        example: 740
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fermata'
+        404:
+          description: Fermata non trovata
+          content: {}
+  /stops/{fermata}/departures:
+    get:
+      tags:
+      - gtt
+      summary: Partenze fermata
+      description: Restituisce i dettagli soltanto delle linee con orari al momento della richiesta passanti per la fermata specificata.
+      operationId: stopsDepartures
+      parameters:
+      - name: fermata
+        in: path
+        description: Codice della fermata
+        example: 740
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Partenza'
+        404:
+          description: Fermata non trovata
+          content: {}
+  /stops/inBounds:
+    get:
+      tags:
+      - gtt
+      summary: bo
+      description: Returns a map of status codes to quantities
+      operationId: stopsInBounds
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+  /stops/byName:
+    get:
+      tags:
+      - gtt
+      summary: Ricerca fermate da nome
+      description: Restituisce un array in XML contenente le fermate simili a quella specificata.
+      operationId: stopsByName
+      parameters:
+        - name: name
+          in: query
+          required: true
+          allowEmptyValue: true
+          example: carducci
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fermata'
+                xml:
+                  name: stopPoints
+                  wrapped: true
+  /stops/{fermata}/branches:
+    get:
+      tags:
+      - gtt
+      summary: Branch fermata senza branchDetail json
+      description: Visualizza tutte le linee passanti per la fermata (indipendentemente dagli orari).
+      operationId: stopsBranches
+      parameters:
+      - name: fermata
+        in: path
+        required: true
+        example: 740
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Branch'
+  /stops/{fermata}/branches/details:
+    get:
+      tags:
+      - gtt
+      summary: Branch fermata con branchDetail json
+      description: Visualizza tutte le linee passanti per la fermata con dettagli aggiuntivi (la polilinea credo sia utiizzata per raffigurare il numero della linea nella app ufficiale).
+      operationId: stopsBranchesDetails
+      parameters:
+      - name: fermata
+        in: path
+        required: true
+        example: 740
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Branch'
+                
+components:
+  schemas:
+    Ciao:
+      type: number
+      example: 130
+      
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        petId:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          format: int32
+        shipDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          description: Order Status
+          enum:
+          - placed
+          - approved
+          - delivered
+        complete:
+          type: boolean
+          default: false
+          
+    Versione:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1658
+          description: codice versione
+        name:
+          type: string
+          example: Versione 1658 del 2020-07-16 05:18:05
+          description: descrizione versione
+          
+    Linea:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 17
+        longName:
+          type: string
+          example: Ospedale di Rivoli - via Ventimiglia
+        azienda:
+          type: string
+          enum:
+          - URBANO
+          - EXTRA
+          - FERRO
+        percentualeDisabili:
+          type: integer
+          format: int64
+          
+    Fermata:
+      type: object
+      properties:
+        lat:
+          type: string
+          example: 45.04306
+          description: latitudine
+        lines:
+          type: string
+          example: roba
+        lng:
+          type: string
+          example: 7.67107
+          description: longitudine
+        location:
+          type: string
+          example: P.CARDUCCI DOPO V.NIZZA
+        name:
+          type: string
+          example: CARDUCCI
+        placeName:
+          type: string
+          example: Torino
+          description: luogo della fermata
+        id:
+          type: string
+          example: 740
+          description: codice fermata
+        type:
+          type: string
+          description: tipo della fermata
+          enum:
+          - BUS
+          - METRO
+          - TRENO
+      xml:
+        name: stops
+        
+    OrarioPartenza:
+      type: object
+      properties:
+        arrivalTimeInt:
+          type: integer
+          format: int64
+          example: 686
+        time:
+          type: string
+          example: "11:26"
+        rt:
+          type: boolean
+          description: orario in tempo reale (Real Time)
+          
+    Partenza:
+      type: object
+      properties:
+        longName:
+          type: string
+          example: Ospedale di Rivoli - via Ventimiglia
+        name:
+          type: string
+          example: 17
+        departures:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrarioPartenza'
+        lineType:
+          type: string
+          description: tipo linea
+          enum:
+          - BUS
+          - METRO
+          - TRENO
+          
+    Branch:
+      type: object
+      properties:
+        branch:
+          type: integer
+          format: int64
+          example: 354
+        lineName:
+          type: string
+          example: 17
+        description:
+          type: string
+          example: via Ventimiglia - Ospedale di Rivoli (Rivoli)
+        direction:
+          type: string
+          example: Ospedale di Rivoli (Rivoli)
+        branchDetail:
+          $ref: '#/components/schemas/BranchDetail'
+    
+    BranchDetail:
+      nullable: true
+      type: object
+      properties:
+        lineName:
+          type: string
+          example: 17
+        polyline:
+          type: string
+          example: wvzqGyoym@yN_F{@rG...
+        stops:
+          type: string
+          example: 2464,887,2122,2495,68,740,522...
+          
