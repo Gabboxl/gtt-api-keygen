@@ -2,11 +2,14 @@
 Generatore di token per accedere alla API nascosta di GTT
 
 
+# Come funziona tutto ciò? Come lo hai scoperto?
+Tutto quello che devi sapere è (e sarà) scritto qui: https://gtt.gabboxl.ga
 
-## Endpoint (o nodi) disponibili
+
+## Endpoint (nodi) disponibili
 Puoi trovare gli endpoints scoperti e documentati secondo le specifiche OpenAPI qua: https://gtt.gabboxl.ga/API
 
-*API:* http://www.5t.torino.it/proxyws
+*API:* http://www.5t.torino.it/proxyws (diventata inutile in favore del nuovo percorso)
 
  **ATTENZIONE: per il momento è impostata la generazione di token sontanto per l'endpoint** */ws2.1/rest/stops/XXX/departures* **, nel futuro verrà implementato un metodo di scelta degli endpoint.**
 
@@ -31,11 +34,11 @@ Dopo aver inviato la richiesta, vi verranno restituiti i dati.
 
 **ATTENZIONE:** Dopo vari test, è emerso che il token generato è **TEMPORANEO** e vale **SOLTANTO** per la fermata/endpoint impostati al momento della generazione, pertanto se il server non restituisce dati, probabilmente sarà necessario generare un nuovo token per la relativa fermata/endpoint.
 
+## Compilazione
+*TODO*
+
+---
 
 ## Roadmap
 La roadmap del progetto è disponibile [qui!](https://github.com/Gabboxl/gtt-api-keygen/projects/1)
 
------
-
-# Come funziona tutto ciò? Come lo hai scoperto?
-Tutto quello che devi sapere è (e sarà) scritto qui: https://gtt.gabboxl.ga
