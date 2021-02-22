@@ -25,10 +25,14 @@ In questa sezione racconterò ciò che ho scoperto durante Giugno 2019.
 
 La versione dell'app che utilizzai è la **2.5.2** (ovvero l'ultima uscita finora xd).
 
+<br>
+
 ---
 **Ricordo che in seguito all'analisi di un'altra app per gli orari GTT (non ufficiale), ho scoperto dell'esistenza di un altro percorso dell'api non richiedente "l'autenticazione" mediante token e timestamp. Continua a leggere [qua](https://gtt.gabboxl.ga)**
 
 ---
+
+<br>
 
 Se dovessi trovare errori grammaticali o di qualsiasi tipo, sezioni poco chiare o con formattazioni poco coerenti, mi aiuteresti segnalandomelo con una issue su github! 
 
@@ -219,7 +223,7 @@ Salta subito all'occhio la stringa `"http://www.5t.torino.it/proxyws"` - a quant
 Quindi la variabile `request` contiene le informazioni sul dominio e percorso dell'endpoint. Con la funzione `.urlString()` infattti viene preso l'url intero della richiesta http da effettuare.
 
 
-Concentriamoci sempre sulla riga **15**.
+Rimaniamo sulla riga **15**:
 
 La variabile "**a**" è del tipo "**ApiParameters**" e ad essa è assegnat-
 
@@ -230,17 +234,20 @@ La variabile "**a**" è del tipo "**ApiParameters**" e ad essa è assegnat-
 Oohhh calma, ci arriviamo! 
 
 
-Dicevo, alla variabile "**a**" è essegnato un valore determinato da un metodo di nome **m1260a** appartenente ad una classe chiamata **C1548a**.
+ <span markdown=0>*<i>ehm</i>*</span>  Dicevo, alla variabile **a** è essegnato un valore determinato da un metodo di nome **m1260a** appartenente ad una classe chiamata **C1548a**.
+
+<br>
 
 ---
 
-(**Ricorda**: Alcuni nomi di variabili/classi/funzioni potrebbero essere privi di senso in seguito alla decompilazione del codice offuscato come in questo caso. Potrebbero essere anche differenti da decompilazioni eseguite in tempi diversi;
+(**Ricorda**: Alcuni nomi di variabili/classi/funzioni potrebbero essere privi di senso in seguito alla decompilazione del codice come in questo caso. Potrebbero essere anche differenti da decompilazioni eseguite in tempi diversi;
 
-Considerate tutto ciò che vedrete in questa pagina come "*pseudo codice*")
+Considerate tutto ciò presente in questa pagina come "*pseudo codice*")
 
 ---
+<br>
 
-Seguiamo il percorso dell'import `it.fivet.gttmobile.p017e.C1548a;` (riga **10**) e vediamo cosa si cela all'interno di questa classe *misteriosa*:
+Seguiamo il percorso dell'import `it.fivet.gttmobile.p017e.C1548a` (riga **10**) e vediamo cosa si cela all'interno di questa classe *misteriosa*:
 
 <br>
 
@@ -402,7 +409,6 @@ public class C1548a {
 </div>
 
 
----
 
 Bene, attualmente ci troviamo al percorso `sources/it/fivet/gttmobile/p017e/C1548a.java`.
 
@@ -410,15 +416,15 @@ All'interno della classe **C1548a** sono presenti tre funzioni: la `m1260a` (rig
 
 ---
 
-Direi di iniziare dalla funzione **m1260a**;
+Direi di iniziare dalla funzione **m1260a**:
 - nella variabile **valueOf** è contenuto il timestamp preso attraverso la funzione `System.currentTimeMillis()`.
-- successivamente viene controllato che il valore di una variabile (contenuta in un'altra classe) sia `true` (a quanto pare è qualcosa legato alla connetività internet) [riga 22]:
+- successivamente viene controllato che il valore di una variabile (contenuta in un'altra classe) sia `true` (a quanto pare è qualcosa legato alla connetività internet, niente di importante) [riga 22]:
 
 <img src="images/C1346b-internet.png" width="422px" height="257px">
 
 ---
 
-Adesso inizia la parte bella - nella variabile **toUpperCase** [riga *23*] viene effettuata una chiamata al metodo **m1262a**.
+Adesso inizia la parte bella - nella variabile **toUpperCase** [riga 23] viene effettuata una chiamata al metodo **m1262a**.
 
 Il metodo `m1262a` prende in input un "percorso" di un'immagine chiamata `sale.png`.
 
@@ -430,26 +436,26 @@ Il compito della funzione **m1262a** è di aprire l'immagine dal percorso fornit
 
 ---
 
-Tornando alla riga 22, l'immagine aperta sottoforma di byte è passata alla funzione **m1261a**.
+Tornando alla riga 22, l'immagine aperta sottoforma di *byte* è passata alla funzione **m1261a**.
 
 Il metodo `m1261a` prende in input soltanto array di tipo *byte*.
 
-Successivamente viene definita una variabile nominata `str` di tipo *String* - Essa corrisponde al valore di una costante chiamata `MD5_INSTANCE` contenuta nella classe `CommonUtils` dell'SDK *fabric*. **Questa costante ha come valore una stringa**: `"MD5"`.
+Successivamente viene definita una variabile nominata `str` di tipo *String* - Essa corrisponde al valore di una costante chiamata `MD5_INSTANCE` contenuta nella classe `CommonUtils` dell'SDK *fabric* (ormai morto). **Quest'ultima costante ha come valore una stringa**: `"MD5"`.
 
 In poche parole, il valore di `str` è una stringa con scritto `"MD5"`.
 
 ---
 
-Dopo, viene creata una istanza di `MessageDigest` del modulo `security` di Java, indicando come paramentro la costante `"MD5"` dell'SDK frabric. (la variabile str a quanto pare viene dimenticata).
+Dopo, viene creata una istanza di `MessageDigest` del modulo `security` di Java, indicando come paramentro la costante `"MD5"` dell'SDK frabric. (la variabile `str` a quanto pare viene dimenticata).
 
 Vengono dati in *pasto* a `MessageDigest` i byte dell'immagine [riga 50] da cui viene fuori un hash **MD5** sottoforma di *array di byte* alla riga 51, il quale viene assegnato alla variabile nominata `digest`.
 
-Dalla riga 53 alla 57 viene effettuara la conversione da *byte* a *String* dell'hash e viene salvata nella variabile `stringBuilder` ciclo dopo ciclo tramite la classe `StringBuilder`:
+Dalla riga 53 alla 57 viene effettuata la conversione da *byte* a *String* dell'hash e viene salvata nella variabile `stringBuilder` ciclo dopo ciclo tramite la classe `StringBuilder`:
 
 <img src="images/dabytetostring2.png" width="536px" height="406px">
 
 
-Alla fine viene della funzione `m1261a`, viene ritornato il valore dell'hash MD5 come *String*.
+Alla fine viene della funzione `m1261a`, viene ritornato il valore dell'hash MD5 come *String* [riga 58].
 
 ----
 
@@ -619,19 +625,20 @@ I vari dati di output vengono loggati:
 
 (con un'app tipo [Logcat Reader](https://play.google.com/store/apps/details?id=com.dp.logcatapp&hl=it&gl=US) è possibile vederli)
 
+
+Alla fine della funzione **ApiParameters m1260a**, i dati vengono salvati all'interno di un'instanza della classe ApiParameters... 
+
 ---
 
-
-Alla fine della funzione **ApiParameters m1260a**, vengono salvati i dati all'interno di un'instanza della classe ApiParameters... 
-
-... e soltanto adesso posso rispondere alla domanda "*ma cos'è sta classe ApiParameters?*"!
+... e soltanto adesso posso rispondere alla domanda "*ma cos'è sta classe ApiParameters?*" !
 
 <br>
 
 <span id="apiparameters">
 ## La Classe ApiParameters
+Questa è la classe dove vengono "salvati" il token e il timestamp.
 
-Nelle "importazioni" del codice è presente proprio la classe "ApiParameters" (`import it.fivet.gttmobile.models.response.ApiParameters;`). Andiamola a vedere al suo percorso corrispondente (`sources/it/fivet/gttmobile/models/response/ApiParameters.java`):
+Andiamola a vedere al suo percorso corrispondente (`sources/it/fivet/gttmobile/models/response/ApiParameters.java`):
 
 
 
@@ -688,13 +695,14 @@ public class ApiParameters implements Serializable {
 La classe **ApiParameters** funge da "contenitore" per le variabili "**timeStamp**" e "**token**".
 
 La classe contiene inoltre una funzione chiamata "**newInstance**" che prende come parametri una stringa `str` e un *Long* (intero a 64 bit) `l`.
-Successivamente questa funzione va ad assegnare alle variabili interne della classe i dati che ha preso come parametri.
 
-La funzione **ritorna un'instanza di ApiParameters**.
+Successivamente questa funzione va ad assegnare alle variabili interne della classe i dati che ha preso come parametri per poi **ritornare un'instanza di ApiParameters**.
 
 ---
 
-Oltre alla classe `ApiParameters` è possibile notare che nella cartella "response" (come può suggerire il nome della cartella a cui è sottostante - "models") sono presenti classi dedicate a contenere informazioni per ogni genere di dato preso dall'api. (I nomi di esse suggeriscono il genere di dati che contengono)
+Oltre alla classe `ApiParameters` è possibile notare che nella cartella "response" (ovvero la cartella dove è contenuto ApiParameters.java) sono presenti classi dedicate a contenere informazioni per ogni genere di dato preso dall'api (come può suggerire il nome della cartella a cui è sottostante - "models"). 
+
+I nomi di esse suggeriscono il genere di dati che contengono
 
 
 <img src="images/apiparameterscartella.png" width="417px" height="959px">
