@@ -4,7 +4,7 @@ title: Reverse engineering della app GTT
 
 *data prima scrittura: 7/01/2021*
 
-*data ultimo aggiornamento: 22/02/2021*
+*data ultimo aggiornamento: 23/02/2021*
 
 # Indice
 
@@ -49,9 +49,8 @@ Sono riuscito ad intercettare le richieste inviate dall'app GTT al primo tentati
 
 Ecco un esempio di chiamata http per le partenze ad una fermata:
 
-----
-img
------
+<img src="images/debprox1.jpg" width="367,2px" height="705,84px">
+<img src="images/debprox2.jpg" width="332,1px" height="792,12px">
 
 
 Insieme alla richiesta vengono aggiunti due parametri che determinano la validità della chiamata HTTP ai server di 5T: parlo degli header `TIMESTAMP` e `TOKEN`.
