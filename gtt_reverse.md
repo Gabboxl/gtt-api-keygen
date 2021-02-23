@@ -250,6 +250,7 @@ Oohhh calma, ci arriviamo!
 Considerate tutto ciò presente in questa pagina come "*pseudo codice*")
 
 ---
+
 <br>
 
 Seguiamo il percorso dell'import `it.fivet.gttmobile.p017e.C1548a` (riga **10**) e vediamo cosa si cela all'interno di questa classe *misteriosa*:
@@ -711,6 +712,7 @@ I nomi di esse suggeriscono il genere di dati che contengono:
 
 
 <img src="images/apiparameterscartella.png" width="417px" height="959px">
+
 
 <br><br><br>
 
