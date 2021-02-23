@@ -21,14 +21,14 @@ title: Reverse engineering della app GTT
 # Introduzione
 
 
-In questa sezione racconterò ciò che ho scoperto durante Giugno 2019.
+In questa sezione del sito racconterò ciò che ho scoperto durante Giugno 2019.
 
 La versione dell'app che utilizzai è la **2.5.2** (ovvero l'ultima uscita finora xd).
 
 <br>
 
 ---
-**Ricordo che in seguito all'analisi di un'altra app per gli orari GTT (non ufficiale), ho scoperto dell'esistenza di un altro percorso dell'api non richiedente "l'autenticazione" mediante token e timestamp. Continua a leggere [qua](https://gtt.gabboxl.ga)**
+**Ricordo che in seguito all'analisi di un'altra app per gli orari GTT (non ufficiale), ho scoperto dell'esistenza di un altro percorso dell'api non richiedente "l'autenticazione" mediante token e timestamp. Pertanto l'utilità di questo progetto diventa nulla: Continua a leggere [qua](https://gtt.gabboxl.ga)**
 
 ---
 
@@ -45,7 +45,7 @@ Grazie e buona lettura!
 
 Inizialmente ho utilizzato un proxy HTTP, ricordo di aver scaricato una app chiamata Debug Proxy da internet per questo fine (anche se presenti alternative migliori), ma a quanto pare è attualmente stata rimossa per qualche strano motivo haha.
 
-Sono riuscito ad intercettare le richieste inviate dalla app GTT al primo tentativo, l'app effettua chiamate HTTP di tipo GET e non fa utilizzo di alcun certificate pinning!
+Sono riuscito ad intercettare le richieste inviate dall'app GTT al primo tentativo, l'app effettua chiamate HTTP di tipo **GET** e non fa utilizzo di alcun certificate pinning!
 
 Ecco un esempio di chiamata http per le partenze ad una fermata:
 
@@ -63,9 +63,9 @@ Ho pensato inizialmente che i due header fossero legati fra di loro soltanto dal
 
 ------
 
-Ho provato a ripetere la *stessa* chiamata allo *stesso* endpoint dell'api con gli *stessi* parametri (utilizzando Postman) e la richiesta andava a buon fine.
+Ho provato a ripetere la *stessa* chiamata allo *stesso* endpoint dell'api con gli *stessi* parametri (utilizzando [Postman](https://www.postman.com)) e la richiesta andava a buon fine.
 
-Da ciò ho capito che la richiesta veniva accettata anche se effettuata in un lasso di tempo diverso da quello definito dal *timestamp*.
+Da ciò ho capito che la richiesta veniva accettata anche se effettuata in un lasso di tempo *diverso* da quello definito dal *timestamp*.
 
  [**Spoiler**: dopo vai test scoprirò che dopo circa una decina di minuti la validità dei parametri diventa nulla e la richiesta viene nuovamente rifiutata]
 
@@ -73,7 +73,7 @@ Da ciò ho capito che la richiesta veniva accettata anche se effettuata in un la
 
 A questo punto ho provato ad compiere altre azioni nell'app per scoprire altri endpoint utilizzati.
 
-Una volta trovati altri nodi da testare, ho creato una richiesta utilizzando come header i parametri della *primissima* prova che ho effettuato ma *non funzionavano*.
+Una volta trovati altri nodi da testare, ho creato una richiesta utilizzando come header i parametri di un'altra richiesta fatta ad un nodo differente ma *non funzionavano*.
 
 Da ciò ho dedotto che il valore del token creato fosse **strettamente legato al nodo della richiesta da effettuare** oltre che al timestamp.
 
@@ -86,7 +86,7 @@ Per poter usufruire dell'api al di fuori dell'app, mi mancava capire come fosse 
 <span id="decompilazione">
 # Decompilazione dell'app
 
-Ho estratto l'apk dell'app dal mio telefono tramite **adb** (Android Debug Bridge) che puoi scaricare [dal sito ufficiale](https://developer.android.com/studio/command-line/adb):
+Ho estratto il file apk dell'app dal mio telefono tramite **adb** (Android Debug Bridge) che puoi scaricare [dal sito ufficiale](https://developer.android.com/studio/command-line/adb):
 
 ```bash
 adb shell pm path it.fivet.gttmobile
@@ -94,9 +94,9 @@ adb shell pm path it.fivet.gttmobile
 adb pull <percorso all\'apk fornito dal comando precedente>
 ```
 
-Dopodichè ho utilizzato **Jadx**  per decompilare il file apk. (Spesso utilizzo [javadecompilers.com/apk](http://javadecompilers.com/apk))
+Dopodichè ho utilizzato **Jadx**  per decompilare il file apk. (Puoi utilizzare [javadecompilers.com/apk](http://javadecompilers.com/apk) se non vuoi scaricarti il programma)
 
-Il codice decompilato si trova nella cartella `sources`, mentre le risorse (immagini ecc.) sono dentro alla cartella `resources`.
+Con Jadx codice decompilato si trova nella cartella `sources`, mentre le risorse (immagini ecc.) sono dentro alla cartella `resources`.
 
 <br><br><br>
 
@@ -138,11 +138,15 @@ Comunque - torniamo al codice:
 
 ho svolto la ricerca del codice per generare il token secondo questo ordine, partendo sostanzialmente dalla fine del processo:
 
-**1)** Cercare il codice che crea ed invia la richiesta finale al server (la app usa Retrofit come libreria)
+**1)** Trovare il codice che crea ed invia la richiesta finale al server (la app usa Retrofit come libreria)
 
-**2)** da quest'ultimo avrei individuato la variabile contenente il valore del token utilizzata come parametro header
+**2)** da quest'ultimo individuare la variabile contenente il valore del token utilizzata come parametro header
 
 **3)** seguire l'origine della variabile e capire il processo di creazione di essa (l'analisi del codice di Intellij semplifica estremamente il processo di ricerca degli utilizzi delle variabili, classi, funzioni ecc... basta un ctrl+click su di essa!)
+
+<br>
+
+---
 
 <br>
 
@@ -222,10 +226,12 @@ Salta subito all'occhio la stringa `"http://www.5t.torino.it/proxyws"` - a quant
 
 Quindi la variabile `request` contiene le informazioni sul dominio e percorso dell'endpoint. Con la funzione `.urlString()` infattti viene preso l'url intero della richiesta http da effettuare.
 
+---
+
 
 Rimaniamo sulla riga **15**:
 
-La variabile "**a**" è del tipo "**ApiParameters**" e ad essa è assegnat-
+La variabile `a` è del tipo "**ApiParameters**" e ad essa è assegnat-
 
 *SPe ma che sarebbe questo "ApiParameters"?*
 *Alla riga 17 il token è preso dalla instanza della classe ApiParameters!!*
@@ -234,7 +240,7 @@ La variabile "**a**" è del tipo "**ApiParameters**" e ad essa è assegnat-
 Oohhh calma, ci arriviamo! 
 
 
- <span markdown=0>*<i>ehm</i>*</span>  Dicevo, alla variabile **a** è essegnato un valore determinato da un metodo di nome **m1260a** appartenente ad una classe chiamata **C1548a**.
+ <span markdown=0>*<i>ehm</i>*</span>  Dicevo, alla variabile `a` è essegnato un valore determinato da un metodo di nome **m1260a** appartenente ad una classe chiamata **C1548a**.
 
 <br>
 
@@ -463,7 +469,7 @@ Ma non abbiamo ancora finito - ricordi quando avevo detto che il valore del toke
 
 Bene, andiamo avanti:
 
-alla riga  **24** entra in gioco una variabile di nome `str2`. Viene fatta una chiamata ad un metodo di nome `m1383b` appartenente ad una classe esterna di nome `C1599a`.
+alla riga  **24** entra in gioco una variabile di nome `str2`. Viene fatta una chiamata ad un metodo di nome `m1383b` appartenente ad un'altra classe esterna di nome `C1599a`.
 
 <img src="images/str2logic.png" width="936px" height="205px">
 
@@ -626,7 +632,7 @@ I vari dati di output vengono loggati:
 (con un'app tipo [Logcat Reader](https://play.google.com/store/apps/details?id=com.dp.logcatapp&hl=it&gl=US) è possibile vederli)
 
 
-Alla fine della funzione **ApiParameters m1260a**, i dati vengono salvati all'interno di un'instanza della classe ApiParameters... 
+Alla fine della funzione `ApiParameters m1260a()`, i dati vengono salvati all'interno di un'instanza della classe `ApiParameters`... 
 
 ---
 
@@ -692,17 +698,17 @@ public class ApiParameters implements Serializable {
 
 </div>
 
-La classe **ApiParameters** funge da "contenitore" per le variabili "**timeStamp**" e "**token**".
+La classe `ApiParameters` funge da "contenitore" per le variabili `timeStamp` e `token`.
 
-La classe contiene inoltre una funzione chiamata "**newInstance**" che prende come parametri una stringa `str` e un *Long* (intero a 64 bit) `l`.
+La classe contiene inoltre una funzione chiamata `newInstance()` che prende come parametri una stringa `str` e un *Long* (intero a 64 bit) `l`.
 
-Successivamente questa funzione va ad assegnare alle variabili interne della classe i dati che ha preso come parametri per poi **ritornare un'instanza di ApiParameters**.
+Successivamente questa funzione va ad assegnare alle variabili interne della classe i dati che ha preso come parametri per poi **ritornare un'instanza di `ApiParameters`**.
 
 ---
 
-Oltre alla classe `ApiParameters` è possibile notare che nella cartella "response" (ovvero la cartella dove è contenuto ApiParameters.java) sono presenti classi dedicate a contenere informazioni per ogni genere di dato preso dall'api (come può suggerire il nome della cartella a cui è sottostante - "models"). 
+Oltre alla classe `ApiParameters` è possibile notare che nella cartella `response` (ovvero la cartella dove è contenuto ApiParameters.java) sono presenti classi dedicate a contenere informazioni per ogni genere di dato preso dall'api (come può suggerire il nome della cartella a cui è sottostante - `models`). 
 
-I nomi di esse suggeriscono il genere di dati che contengono
+I nomi di esse suggeriscono il genere di dati che contengono:
 
 
 <img src="images/apiparameterscartella.png" width="417px" height="959px">
