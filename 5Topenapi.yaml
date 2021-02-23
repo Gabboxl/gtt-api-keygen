@@ -36,8 +36,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Linea'
-              examples: {}
-      parameters: []
   /stops/version:
     get:
       tags:

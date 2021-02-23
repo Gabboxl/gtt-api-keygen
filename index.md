@@ -32,7 +32,7 @@ Per quanto riguarda il keygen, se dovesse tornare utile sarò qui per contribuir
 
 Il sito si divide in diverse sezioni: (*puoi accederci cliccandoci sopra*)
 
-* <a href="https://gtt.gabboxl.ga/API" name="api_endpoints">Documentazione dell'API e degli endpoint scoperti dall'analisi dell'app GTT</a> (<b>sono gli stessi disponibili per la versione senza autenticazione</b>)
+* <a href="https://gtt.gabboxl.ga/API" name="api_endpoints">Documentazione dell'API e degli endpoint scoperti dall'analisi dell'app GTT</a>
 
 * [Reverse Engineering dell'app GTT](https://gtt.gabboxl.ga/gtt_reverse)
 
