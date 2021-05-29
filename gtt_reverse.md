@@ -4,7 +4,7 @@ title: Reverse engineering della app GTT
 
 *data prima scrittura: 7/01/2021*
 
-*data ultimo aggiornamento: 23/02/2021*
+*data ultimo aggiornamento: 29/05/2021*
 
 # Indice
 
@@ -23,12 +23,12 @@ title: Reverse engineering della app GTT
 
 In questa sezione del sito racconterò ciò che ho scoperto durante Giugno 2019.
 
-La versione dell'app che utilizzai è la **2.5.2** (ovvero l'ultima uscita finora xd).
+La versione dell'app che utilizzai fu la **2.5.2** (ovvero l'ultima uscita finora).
 
 <br>
 
 ---
-**Ricordo che in seguito all'analisi di un'altra app per gli orari GTT (non ufficiale), ho scoperto dell'esistenza di un altro percorso dell'api non richiedente "l'autenticazione" mediante token e timestamp. Pertanto l'utilità di questo progetto diventa nulla: Continua a leggere [qua](https://gtt.gabboxl.ga)**
+**Ricordo che in seguito all'analisi di un'altra app per gli orari GTT (non ufficiale) ho scoperto dell'esistenza di un altro percorso dell'api non richiedente "l'autenticazione" mediante token e timestamp. Pertanto l'utilità di questo progetto diventa nulla: Continua a leggere [qua](https://gtt.gabboxl.ga)**
 
 ---
 
@@ -45,7 +45,7 @@ Grazie e buona lettura!
 
 Inizialmente ho utilizzato un proxy HTTP, ricordo di aver scaricato una app chiamata Debug Proxy da internet per questo fine (anche se presenti alternative migliori), ma a quanto pare è attualmente stata rimossa per qualche strano motivo haha.
 
-Sono riuscito ad intercettare le richieste inviate dall'app GTT al primo tentativo, l'app effettua chiamate HTTP di tipo **GET** e non fa utilizzo di alcun certificate pinning!
+Sono riuscito ad intercettare le richieste inviate dall'app GTT al primo tentativo, l'app effettua chiamate **HTTP** di tipo **GET** e non fa utilizzo di alcun certificate pinning!
 
 Ecco un esempio di chiamata http per le partenze ad una fermata:
 
@@ -66,13 +66,13 @@ Ho provato a ripetere la *stessa* chiamata allo *stesso* endpoint dell'api con g
 
 Da ciò ho capito che la richiesta veniva accettata anche se effettuata in un lasso di tempo *diverso* da quello definito dal *timestamp*.
 
- [**Spoiler**: dopo vai test scoprirò che dopo circa una decina di minuti la validità dei parametri diventa nulla e la richiesta viene nuovamente rifiutata]
+[**Spoiler**: dopo vai test scoprirò che dopo circa una decina di minuti la validità dei parametri diventa nulla e la richiesta viene nuovamente rifiutata]
 
 -----
 
 A questo punto ho provato ad compiere altre azioni nell'app per scoprire altri endpoint utilizzati.
 
-Una volta trovati altri nodi da testare, ho creato una richiesta utilizzando come header i parametri di un'altra richiesta fatta ad un nodo differente ma *non funzionavano*.
+Una volta trovati altri nodi da testare, ho creato una richiesta (sempre nel lasso di 10 minuti di tempo) utilizzando come header i parametri di un'altra richiesta fatta ad un nodo differente ma *non funzionavano*.
 
 Da ciò ho dedotto che il valore del token creato fosse **strettamente legato al nodo della richiesta da effettuare** oltre che al timestamp.
 
@@ -93,9 +93,9 @@ adb shell pm path it.fivet.gttmobile
 adb pull <percorso all\'apk fornito dal comando precedente>
 ```
 
-Dopodichè ho utilizzato **Jadx**  per decompilare il file apk. (Puoi utilizzare [javadecompilers.com/apk](http://javadecompilers.com/apk) se non vuoi scaricarti il programma)
+Dopodichè ho utilizzato **Jadx**  per decompilare il file apk. (Puoi utilizzare [javadecompilers.com/apk](http://javadecompilers.com/apk) se non vuoi scaricare il programma)
 
-Con Jadx codice decompilato si trova nella cartella `sources`, mentre le risorse (immagini ecc.) sono dentro alla cartella `resources`.
+Con Jadx il codice decompilato si trova nella cartella `sources`, mentre le risorse (immagini ecc.) sono dentro alla cartella `resources`.
 
 <br><br><br>
 
@@ -125,6 +125,8 @@ Nella cartella `sephiroth` sembra essere presente una libreria proveniente dall'
 
 Mentre nella cartella `fivet` è contenuto tutto il codice più importante riguardo le richieste http e generazione del token (spoiler: è scandalosa la logica impiegata).
 
+---- 
+
 Riguardo a "fivet" non ho trovato alcuna informazione su internet, se non il "Centro FIVET ASL di Torino", centri di medicina riproduttiva e procreazione assistita, e altre associazioni che *penso* abbiano poco a che fare con il prodotto in questione. 
 
 Il dominio `fivet.it` porta in ogni caso al sito web di un'associazione dedicata a scopi sopracitati.
@@ -137,7 +139,7 @@ Comunque - torniamo al codice:
 
 ho svolto la ricerca del codice per generare il token secondo questo ordine, partendo sostanzialmente dalla fine del processo:
 
-**1)** Trovare il codice che crea ed invia la richiesta finale al server (la app usa Retrofit come libreria)
+**1)** Trovare il codice che crea ed invia la richiesta finale al server (l'app usa Retrofit per gestire le richieste)
 
 **2)** da quest'ultimo individuare la variabile contenente il valore del token utilizzata come parametro header
 
@@ -223,7 +225,7 @@ Prestate bene attenzione al codice.
 Salta subito all'occhio la stringa `"http://www.5t.torino.it/proxyws"` - a quanto pare viene rimossa proprio questa parte di stringa con la funzione `.replace()` ad una stringa che *presumibilmente* contiene il **percorso dell'api** (ciò che viene sostituito con una stringa vuota `""`) **+** **percorso dell'endpoint**.
 
 
-Quindi la variabile `request` contiene le informazioni sul dominio e percorso dell'endpoint. Con la funzione `.urlString()` infattti viene preso l'url intero della richiesta http da effettuare.
+Quindi posso dedurre che la variabile `request` contiene le informazioni sul dominio e percorso dell'endpoint. Con la funzione `.urlString()` infattti viene preso l'url intero della richiesta http da effettuare.
 
 ---
 
@@ -241,7 +243,10 @@ Oohhh calma, ci arriviamo!
 
  <span markdown=0>*<i>ehm</i>*</span>  Dicevo, alla variabile `a` è essegnato un valore determinato da un metodo di nome **m1260a** appartenente ad una classe chiamata **C1548a**.
 
+
 <br>
+
+Seguiamo il percorso dell'import `it.fivet.gttmobile.p017e.C1548a` (riga **10**) e vediamo cosa si cela all'interno di questa classe *misteriosa*:
 
 ---
 
@@ -250,10 +255,6 @@ Oohhh calma, ci arriviamo!
 Considerate tutto ciò presente in questa pagina come "*pseudo codice*")
 
 ---
-
-<br>
-
-Seguiamo il percorso dell'import `it.fivet.gttmobile.p017e.C1548a` (riga **10**) e vediamo cosa si cela all'interno di questa classe *misteriosa*:
 
 <br>
 
@@ -430,7 +431,7 @@ Direi di iniziare dalla funzione **m1260a**:
 
 ---
 
-Adesso inizia la parte bella - nella variabile **toUpperCase** [riga 23] viene effettuata una chiamata al metodo **m1262a**.
+Adesso arriva la parte bella - nella variabile **toUpperCase** [riga 23] viene effettuata una chiamata al metodo **m1262a**.
 
 Il metodo `m1262a` prende in input un "percorso" di un'immagine chiamata `sale.png`.
 
@@ -442,7 +443,7 @@ Il compito della funzione **m1262a** è di aprire l'immagine dal percorso fornit
 
 ---
 
-Tornando alla riga 22, l'immagine aperta sottoforma di *byte* è passata alla funzione **m1261a**.
+Tornando alla riga 22, l'immagine aperta sottoforma di *bytes* è passata alla funzione **m1261a**.
 
 Il metodo `m1261a` prende in input soltanto array di tipo *byte*.
 
@@ -475,8 +476,8 @@ alla riga  **24** entra in gioco una variabile di nome `str2`. Viene fatta una c
 
 A questa funzione vengono passate come parametro la variabile `str`, variabile `valueOf`, e la variabile `toUpperCase`:
 
-- la variabile `str`, se ricordi è il percorso dell'endpoint senza il dominio dell'api. (lo abbiamo visto nel file `GttInterceptor.java`);
-- la variabile `valueOf` sarebbe il timestamp;
+- la variabile `str` se ricordi è il percorso dell'endpoint senza il dominio dell'api. (lo abbiamo visto nel file `GttInterceptor.java`);
+- la variabile `valueOf` è il timestamp;
 - mentre la variabile `toUpperCase` è l'hash MD5 del logo dell'app.
 
 **Vediamo cosa c'è all'interno della classe C1599a:**
@@ -623,20 +624,20 @@ O meglio, *quasi uguale*... l'unica differenza sta nel tipo di parametro che acc
 
 ---
 
-QUINDI (tornando alla classe *C1548a*), dal percorso dell'endpoint senza il dominio dell'api **+** timestamp **+** hash MD5 del logo, **viene calcolato un nuovo hash MD5**.
+QUINDI (tornando alla classe *C1548a*): dal *percorso dell'endpoint senza il dominio dell'api* **+** *timestamp* **+** *hash MD5 del logo*, **viene calcolato un nuovo hash MD5**.
 
 I vari dati di output vengono loggati: 
 
 <img src="images/logtoken.png" width="896px" height="316px">
 
-(con un'app tipo [Logcat Reader](https://play.google.com/store/apps/details?id=com.dp.logcatapp&hl=it&gl=US) è possibile vederli)
+(con un'app tipo [Logcat Reader](https://play.google.com/store/apps/details?id=com.dp.logcatapp&hl=it&gl=US) è possibile vederli al momento della generazione)
 
 
 Alla fine della funzione `ApiParameters m1260a()`, i dati vengono salvati all'interno di un'instanza della classe `ApiParameters`... 
 
 ---
 
-... e soltanto adesso posso rispondere alla domanda "*ma cos'è sta classe ApiParameters?*" !
+... e soltanto adesso posso rispondere alla domanda "*ma cos'è sta classe ApiParameters?*"...
 
 <br>
 
@@ -719,3 +720,5 @@ I nomi di esse suggeriscono il genere di dati che contengono:
 
 <span id="tldr">
 # Recap (TL; DR)
+
+
