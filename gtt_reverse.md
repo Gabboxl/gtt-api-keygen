@@ -124,16 +124,10 @@ Da quello che ho scoperto cercando un po' su Google, Synesthesia è una "compagn
 Nella cartella `sephiroth` sembra essere presente una libreria proveniente dall'omonimo sviluppatore (svizzero (?)). (niente di importante anche qua)
 
 Mentre nella cartella `fivet` è contenuto tutto il codice più importante riguardo le richieste http e generazione del token (spoiler: è scandalosa la logica impiegata).
+   
+"fivet" sarebbe il nome dell'azienda (5T), ma in inglese.
 
----- 
-
-Riguardo a "fivet" non ho trovato alcuna informazione su internet, se non il "Centro FIVET ASL di Torino", centri di medicina riproduttiva e procreazione assistita, e altre associazioni che *penso* abbiano poco a che fare con il prodotto in questione. 
-
-Il dominio `fivet.it` porta in ogni caso al sito web di un'associazione dedicata a scopi sopracitati.
-
-
-----
-
+---------------------------------
 
 Comunque - torniamo al codice:
 
