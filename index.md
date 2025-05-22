@@ -6,7 +6,7 @@ Su internet, facendo una semplice ricerca, si trovano delle API non ufficiali ch
 
 L'HTML parsing solitamente è la tecnica di estrazione di informazioni a cui ricorrere quando non sono disponibili alternative, siccome anche dopo una piccola modifica grafica al sito potrebbe essere necessaria la modifica del percorso che punta al dato da estrarre.
 
-Convinto che l'app di GTT non utilizzasse la suddetta tecnica per ricavare i dati, ho deciso di [analizzarla](https://gtt.gabboxl.ga/gtt_reverse) scoprendo l'utilizzo di una REST API nascosta al pubblico utilizzabile soltanto via un "token" generato dall'app.
+Convinto che l'app di GTT non utilizzasse la suddetta tecnica per ricavare i dati, ho deciso di [analizzarla](gtt_reverse) scoprendo l'utilizzo di una REST API nascosta al pubblico utilizzabile soltanto via un "token" generato dall'app.
 
 <br>
 
@@ -32,9 +32,9 @@ Per quanto riguarda il keygen, se dovesse tornare utile sarò qui per contribuir
 
 Il sito si divide in diverse sezioni: (*puoi accederci cliccandoci sopra*)
 
-* <a href="https://gtt.gabboxl.ga/API" name="api_endpoints">Documentazione dell'API e degli endpoint scoperti dall'analisi dell'app GTT</a>
+* <a href="API" name="api_endpoints">Documentazione dell'API e degli endpoint scoperti dall'analisi dell'app GTT</a>
 
-* [Reverse Engineering dell'app GTT](https://gtt.gabboxl.ga/gtt_reverse)
+* [Reverse Engineering dell'app GTT](gtt_reverse)
 
 * [Documentazione](https://github.com/Gabboxl/gtt-api-keygen/blob/master/README.md) del programma [gtt-api-keygen](https://github.com/Gabboxl/gtt-api-keygen): software principale che permette la creazione di "token" per accedere all'API di GTT con autenticazione.
 
