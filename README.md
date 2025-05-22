@@ -3,11 +3,11 @@ Generatore di token per accedere alla API nascosta di GTT
 
 
 # Come funziona tutto ciò? Come lo hai scoperto?
-Tutto quello che devi sapere è (e sarà) scritto qui: https://gtt.gabboxl.ga
+Tutto quello che devi sapere è (e sarà) scritto qui: https://gabboxl.github.io/gtt-api-keygen
 
 
 ## Endpoint (nodi) disponibili
-Puoi trovare gli endpoints scoperti e documentati secondo le specifiche OpenAPI qua: https://gtt.gabboxl.ga/API
+Puoi trovare gli endpoints scoperti e documentati secondo le specifiche OpenAPI qua: https://gabboxl.github.io/gtt-api-keygen/API
 
 *API:* http://www.5t.torino.it/proxyws (diventata inutile in favore del nuovo percorso)
 
